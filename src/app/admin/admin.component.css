@@ -22,3 +22,8 @@
   background-color: white;
   color: black;
 }
+.calendar-container {
+  padding-top: 5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}

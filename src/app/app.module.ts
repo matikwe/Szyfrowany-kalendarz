@@ -20,6 +20,15 @@ import { LogoutComponent } from './logout/logout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { PlansComponent } from './plans/plans.component';
+import { CustomEventTitleFormatterService } from './custom-event-title-formatter.service';
+import { CustomDateFormatterService } from './custom-date-formatter.service';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarComponent } from './calendar/calendar.component';
+FullCalendarModule.registerPlugins([dayGridPlugin, interactionPlugin]);
 
 @NgModule({
   declarations: [
@@ -34,10 +43,13 @@ import { PlansComponent } from './plans/plans.component';
     NavbarComponent,
     RegisterComponent,
     PlansComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FullCalendarModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       {
         path: 'data',
@@ -70,7 +82,14 @@ import { PlansComponent } from './plans/plans.component';
       },
     ]),
   ],
-  providers: [RecordsService, AuthService, AuthGuard, UserService],
+  providers: [
+    RecordsService,
+    AuthService,
+    AuthGuard,
+    UserService,
+    CustomEventTitleFormatterService,
+    CustomDateFormatterService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
