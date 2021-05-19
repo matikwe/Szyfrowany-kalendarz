@@ -19,7 +19,7 @@ backdrop {
   position: fixed;
   top: 0;
   left: 0;
-  background: black;
+  background: grey;
   padding: 0.5rem 1rem;
   z-index: 60;
   display: -webkit-box;
@@ -111,7 +111,7 @@ backdrop {
 .main-nav__item--cta a:active,
 .mobile-nav__item--cta a:hover,
 .mobile-nav__item--cta a:active {
-  color: grey;
+  color: black;
   border: none;
 }
 

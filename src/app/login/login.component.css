@@ -1,6 +1,6 @@
 h1 {
   position: absolute;
-  left: 45.5%;
+  left: 38%;
   top: 35%;
 }
 form {
@@ -46,10 +46,18 @@ button#submit {
   text-decoration: none;
   margin: 20px;
   position: absolute;
-  top: 80%;
-  left: 10%;
+  top: 70%;
+  left: 14%;
 }
 #homepage-link:hover {
   background-color: white;
   color: black;
+}
+@media (min-width: 40rem) {
+  h1 {
+    left: 46%;
+  }
+  #homepage-link {
+    left: 40%;
+  }
 }

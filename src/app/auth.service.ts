@@ -11,21 +11,13 @@ interface myData {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  // private loggedInStatus = JSON.parse(
-  //   localStorage.getItem('loggedIn') || 'false'
-  // );
-
   private loggedInStatus = false;
 
   get isLoggedIn() {
-    // return JSON.parse(
-    //   localStorage.getItem('loggedIn') || this.loggedInStatus.toString()
-    // );
     return this.loggedInStatus;
   }
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
-    // localStorage.setItem('loggedIn', 'true');
   }
   getUserDetails(username, password) {
     return this.http.post<myData>('./api/auth.php', {
