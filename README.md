@@ -1,5 +1,10 @@
 # PkikApp
 
+#RUN PROJECT
+1. npm install
+2. npm start
+3. php -S 127.0.0.1:1234
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
 
 ## Development server
