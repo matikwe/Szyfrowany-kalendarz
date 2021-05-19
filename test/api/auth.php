@@ -18,7 +18,7 @@ if(isset($_POST) && !empty($_POST)){
     ?>
     {
         "success": false,
-        "message": "Nie prawidłowe dane"
+        "message": "Nie prawidłowe danee"
     }
     <?php }
 }else{
