@@ -18,7 +18,7 @@ if(isset($_POST) && !empty($_POST)){
     ?>
     {
         "success": false,
-        "message": "Invalid credentails"
+        "message": "Nie prawidłowe dane"
     }
     <?php }
 }else{

@@ -4,12 +4,12 @@ $user = $_SESSION['user'];
 
 if($user =='admin'){
     echo  '{
-        "message": "This is a secret message only for administrator",
+        "message": "Ta sekretna wiadomośc jest widoczna jedynie dla administratora",
         "success": true
     }';
 } else {
     echo '{
-        "message": "Who the f are you",
+        "message": "Kim jesteś?",
         "success": false
     }';
 }
