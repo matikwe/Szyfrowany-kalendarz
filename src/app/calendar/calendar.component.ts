@@ -1,58 +1,80 @@
-import { Component, OnInit } from '@angular/core';
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-declare let akcja: any;
-import { CalendarOptions } from '@fullcalendar/angular';
+import { Component } from '@angular/core';
+import {
+  CalendarOptions,
+  DateSelectArg,
+  EventClickArg,
+  EventApi,
+} from '@fullcalendar/angular';
+import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
-export class CalendarComponent implements OnInit {
-  addEventForm: FormGroup;
-  submitted = false;
-  //Add user form actions
-  get f() {
-    return this.addEventForm.controls;
+export class CalendarComponent {
+  calendarVisible = true;
+  calendarOptions: CalendarOptions = {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+    },
+    initialView: 'dayGridMonth',
+    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+    weekends: true,
+    editable: true,
+    selectable: true,
+    selectMirror: true,
+    dayMaxEvents: true,
+    select: this.handleDateSelect.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    eventsSet: this.handleEvents.bind(this),
+    /* you can update a remote database when these fire:
+    eventAdd:
+    eventChange:
+    eventRemove:
+    */
+  };
+  currentEvents: EventApi[] = [];
+
+  handleCalendarToggle() {
+    this.calendarVisible = !this.calendarVisible;
   }
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid and reset the validations
-    this.addEventForm.get('title').setValidators([Validators.required]);
-    this.addEventForm.get('title').updateValueAndValidity();
-    if (this.addEventForm.invalid) {
-      return;
+
+  handleWeekendsToggle() {
+    const { calendarOptions } = this;
+    calendarOptions.weekends = !calendarOptions.weekends;
+  }
+
+  handleDateSelect(selectInfo: DateSelectArg) {
+    const title = prompt('Please enter a new title for your event');
+    const calendarApi = selectInfo.view.calendar;
+
+    calendarApi.unselect(); // clear date selection
+
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      });
     }
   }
-  constructor(private formBuilder: FormBuilder) {}
-  title = 'angularadmintemplates';
-  calendarOptions: CalendarOptions;
-  ngOnInit() {
-    this.calendarOptions = {
-      initialView: 'dayGridMonth',
-      dateClick: this.handleDateClick.bind(this),
-      events: [
-        { title: 'event 1', date: '2020-11-05' },
-        { title: 'event 2', date: '2020-06-30' },
-      ],
-    };
-    //Add User form validations
-    this.addEventForm = this.formBuilder.group({
-      title: ['', [Validators.required]],
-    });
+
+  handleEventClick(clickInfo: EventClickArg) {
+    if (
+      confirm(
+        `Are you sure you want to delete the event '${clickInfo.event.title}'`
+      )
+    ) {
+      clickInfo.event.remove();
+    }
   }
-  //Show Modal with Forn on dayClick Event
-  handleDateClick(arg) {
-    akcja('#myModal').modal('show');
-    akcja('.modal-title, .eventstarttitle').text('');
-    akcja('.modal-title').text('Add Event at : ' + arg.dateStr);
-    akcja('.eventstarttitle').text(arg.dateStr);
-  }
-  //Hide Modal PopUp and clear the form validations
-  hideForm() {
-    this.addEventForm.patchValue({ title: '' });
-    this.addEventForm.get('title').clearValidators();
-    this.addEventForm.get('title').updateValueAndValidity();
+
+  handleEvents(events: EventApi[]) {
+    this.currentEvents = events;
   }
 }

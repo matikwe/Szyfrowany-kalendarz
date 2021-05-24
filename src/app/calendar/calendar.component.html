@@ -1,57 +1,48 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <full-calendar [options]="calendarOptions"></full-calendar>
+<div class="demo-app">
+  <div class="demo-app-sidebar">
+    <div class="demo-app-sidebar-section">
+      <h2>Instrukcja obsługi</h2>
+      <ul>
+        <li>Zaznacz odpowiedni przedział czasowy lub odpowiednie</li>
+
+        <li>Kliknij na wydarzenie aby je usunąć</li>
+      </ul>
+    </div>
+    <div class="demo-app-sidebar-section">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="calendarVisible"
+          (change)="handleCalendarToggle()"
+        />
+        Pokaż kalendarz
+      </label>
+    </div>
+    <div class="demo-app-sidebar-section">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="calendarOptions.weekends"
+          (change)="handleWeekendsToggle()"
+        />
+        Pokaż dni wolne
+      </label>
+    </div>
+    <div class="demo-app-sidebar-section">
+      <h2>Wszystkie wydarzenia ({{ currentEvents.length }})</h2>
+      <ul>
+        <li *ngFor="let event of currentEvents">
+          <b>{{ event.startStr }}</b>
+          <i>{{ event.title }}</i>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
-<!--Modal PopUp with Add Event Form-->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title align-center"></h4>
-        <button
-          type="button"
-          class="close"
-          (click)="hideForm()"
-          data-dismiss="modal"
-        >
-          &times;
-        </button>
-      </div>
 
-      <div class="modal-body">
-        <form [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label>Event Title</label>
-                <input
-                  placeholder="Add Event Title"
-                  type="text"
-                  formControlName="title"
-                  class="titleinp form-control"
-                  [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
-                />
-                <div
-                  *ngIf="submitted && f.title.errors"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="f.title.errors.required">Title is required</div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label>Event Date:</label>
-                <div class="form-control eventstarttitle"></div>
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-    </div>
+  <div class="demo-app-main">
+    <full-calendar
+      *ngIf="calendarVisible"
+      [options]="calendarOptions"
+    ></full-calendar>
   </div>
 </div>
