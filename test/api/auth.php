@@ -7,22 +7,21 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 if(isset($_POST) && !empty($_POST)){
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $currID;
+    $currID ;
     $currLogin=false;
     $currPassword=false;
 
     $data = new DB_connect('calendar');
 
-    $query = $data->getHandle()->query(sprintf("SELECT * FROM user WHERE login=\"%s\" AND password=\"%s\" ", $username, $password));
+    $query = $data->getHandle()->query(sprintf("SELECT * FROM user WHERE login=\"%s\" ", $username));
 
     foreach($query as $item){
         $currID = $item['user_id'];
         $currLogin = $item['login'];
         $currPassword = $item['password'];
     }
-    if($username == $currLogin && $password == $currPassword){
+    if($username == $currLogin && (password_verify($password, $currPassword)) == true){
         $_SESSION['currID'] = $currID;
-        //echo json_encode($currID);
 ?>
 
 {

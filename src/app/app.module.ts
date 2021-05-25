@@ -67,7 +67,7 @@ FullCalendarModule.registerPlugins([
         path: 'register',
         component: RegisterComponent,
       },
-
+      //dodac
       {
         path: 'admin',
         component: AdminComponent,

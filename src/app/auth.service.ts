@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   private loggedInStatus = false;
+  private registredStatus = false;
 
   get isLoggedIn() {
     return this.loggedInStatus;
@@ -22,6 +23,16 @@ export class AuthService {
   getUserDetails(username, password) {
     return this.http.post<myData>('./api/auth.php', {
       username,
+      password,
+    });
+  }
+  setRegistred(value: boolean) {
+    this.registredStatus = value;
+  }
+  getRegisterDetails(email, username, password){
+    return this.http.post<myData>('./api/register.php', {
+      email, 
+      username, 
       password,
     });
   }
