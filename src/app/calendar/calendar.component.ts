@@ -6,7 +6,8 @@ import {
   EventApi,
 } from '@fullcalendar/angular';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
-
+import { EventsService } from '../events.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -42,6 +43,8 @@ export class CalendarComponent {
     this.calendarVisible = !this.calendarVisible;
   }
 
+  constructor(private Event: EventsService, private router: Router) {}
+
   handleWeekendsToggle() {
     const { calendarOptions } = this;
     calendarOptions.weekends = !calendarOptions.weekends;
@@ -54,13 +57,38 @@ export class CalendarComponent {
     calendarApi.unselect(); // clear date selection
 
     if (title) {
+      const Id = createEventId();
+      const _start = selectInfo.startStr;
+      const _end = selectInfo.endStr;
+      const _allDay = selectInfo.allDay;
+
+      // const event = {
+      //   id: Id,
+      //   title,
+      //  start: selectInfo.startStr,
+      //   end: selectInfo.endStr,
+      //   allDay: _allDay,
+      // }
       calendarApi.addEvent({
-        id: createEventId(),
+        id: Id,
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
+        allDay: _allDay,
       });
+      this.Event.postEvent(title, _start, _end, _allDay).subscribe((data) => {
+        if (data.success) {
+        } else {
+          window.alert(data.message);
+        }
+      });
+      // console.log({
+      //   id: Id,
+      //   title,
+      //   start: selectInfo.startStr,
+      //   end: selectInfo.endStr,
+      //   allDay: selectInfo.allDay,
+      // });
     }
   }
 
@@ -70,11 +98,19 @@ export class CalendarComponent {
         `Are you sure you want to delete the event '${clickInfo.event.title}'`
       )
     ) {
+      console.log(clickInfo.event.title);
+      console.log(clickInfo.event.id);
+      console.log(clickInfo.event.start);
+      console.log(clickInfo.event.end);
       clickInfo.event.remove();
     }
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
+  }
+
+  showEventsConsole() {
+    console.log(this.currentEvents);
   }
 }

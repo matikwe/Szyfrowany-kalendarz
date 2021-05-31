@@ -34,6 +34,8 @@ if(!empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['email
       //dobre dane  
       $passHash = password_hash($password, PASSWORD_DEFAULT);
 
+
+    //   $query = $database->getHandle()->query('INSERT INTO wydarzenia(iduser) values(321)');
       $addUser = $data->getHandle()->query(sprintf("INSERT INTO user(login, password, email) 
       values(\"%s\", \"%s\", \"%s\")", $username, $passHash, $email));
       ?>

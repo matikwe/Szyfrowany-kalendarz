@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserService } from './user.service';
 import { AuthGuard } from './auth.guard';
+import { EventsService } from './events.service';
 import { LogoutComponent } from './logout/logout.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
@@ -75,7 +76,13 @@ FullCalendarModule.registerPlugins([
       },
     ]),
   ],
-  providers: [RecordsService, AuthService, AuthGuard, UserService],
+  providers: [
+    RecordsService,
+    AuthService,
+    AuthGuard,
+    UserService,
+    EventsService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
