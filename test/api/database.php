@@ -8,10 +8,7 @@ header('Content-Type: application/json');
 $user = $_SESSION['user'];
 $userId = $_SESSION['currID'];
 
-// $title = $_POST['title'];
-// $start = $_POST['start'];
-// $end = $_POST['end'];
-// $allDay = $_POST['allDay'];
+
  
 
 function debug_to_console($data) {

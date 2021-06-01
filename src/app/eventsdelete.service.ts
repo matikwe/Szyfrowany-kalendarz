@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import { Form } from '@angular/forms';
-// import { Observable } from 'rxjs';
 
 interface myData {
   success: boolean;
   message: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
-export class EventsService {
+export class EventsdeleteService {
   constructor(private http: HttpClient) {}
-  postEvent(event) {
-    return this.http.post<myData>('./api/events.php', event);
+  deleteEvent(event) {
+    return this.http.post<myData>('./api/delete_event.php', event);
   }
 }

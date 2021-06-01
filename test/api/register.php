@@ -21,7 +21,6 @@ if(!empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['email
         $repeatingData++;
     }
 
-    //email lub login istnieje
     if($repeatingData > 0)
     {
         ?>

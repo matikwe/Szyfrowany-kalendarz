@@ -24,8 +24,7 @@ if(isset($_POST) && !empty($_POST)){
     }
     if($username == $currLogin && (password_verify($password, $currPassword)) == true){
         $_SESSION['currID'] = $currID;
-        // $query = $database->getHandle()->query('INSERT INTO wydarzenia(iduser) values(' . $currID . ')');
-        // $zapytaj = $database->getHandle()->query('INSERT INTO wydarzenia(title, start, end,allDay,iduser) values("qwe",1,1,false,' . $currID . ')');
+       
 ?>
 
 {

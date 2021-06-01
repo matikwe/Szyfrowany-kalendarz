@@ -7,7 +7,10 @@ import {
 } from '@fullcalendar/angular';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 import { EventsService } from '../events.service';
+import { EventsdeleteService } from '../eventsdelete.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Identifiers } from '@angular/compiler';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -31,11 +34,6 @@ export class CalendarComponent {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    /* you can update a remote database when these fire:
-    eventAdd:
-    eventChange:
-    eventRemove:
-    */
   };
   currentEvents: EventApi[] = [];
 
@@ -43,7 +41,11 @@ export class CalendarComponent {
     this.calendarVisible = !this.calendarVisible;
   }
 
-  constructor(private Event: EventsService, private router: Router) {}
+  constructor(
+    private Event: EventsService,
+    private deleteEvent: EventsdeleteService,
+    private router: Router
+  ) {}
 
   handleWeekendsToggle() {
     const { calendarOptions } = this;
@@ -62,33 +64,29 @@ export class CalendarComponent {
       const _end = selectInfo.endStr;
       const _allDay = selectInfo.allDay;
 
-      // const event = {
-      //   id: Id,
-      //   title,
-      //  start: selectInfo.startStr,
-      //   end: selectInfo.endStr,
-      //   allDay: _allDay,
-      // }
-      calendarApi.addEvent({
+      const event = {
         id: Id,
-        title,
+        title: title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: _allDay,
-      });
-      this.Event.postEvent(title, _start, _end, _allDay).subscribe((data) => {
-        if (data.success) {
-        } else {
-          window.alert(data.message);
+        allDay: selectInfo.allDay,
+      };
+
+      calendarApi.addEvent(event);
+
+      this.Event.postEvent(event).subscribe(
+        (res) => {
+          console.log(res);
+          // if (res.success) {
+          //   console.log(res);
+          // } else {
+          //   window.alert(res.message);
+          // }
+        },
+        (err) => {
+          window.alert(err);
         }
-      });
-      // console.log({
-      //   id: Id,
-      //   title,
-      //   start: selectInfo.startStr,
-      //   end: selectInfo.endStr,
-      //   allDay: selectInfo.allDay,
-      // });
+      );
     }
   }
 
@@ -98,19 +96,33 @@ export class CalendarComponent {
         `Are you sure you want to delete the event '${clickInfo.event.title}'`
       )
     ) {
-      console.log(clickInfo.event.title);
-      console.log(clickInfo.event.id);
-      console.log(clickInfo.event.start);
-      console.log(clickInfo.event.end);
+      const event = {
+        id: clickInfo.event.id,
+        title: clickInfo.event.title,
+
+        start: clickInfo.event.start,
+        end: clickInfo.event.end,
+        allDay: clickInfo.event.allDay,
+      };
+
+      this.deleteEvent.deleteEvent(event).subscribe(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          window.alert(err);
+        }
+      );
+
+      // console.log(clickInfo.event.title);
+      // console.log(clickInfo.event.id);
+      // console.log(clickInfo.event.start);
+      // console.log(clickInfo.event.end);
       clickInfo.event.remove();
     }
   }
 
   handleEvents(events: EventApi[]) {
     this.currentEvents = events;
-  }
-
-  showEventsConsole() {
-    console.log(this.currentEvents);
   }
 }
