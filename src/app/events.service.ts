@@ -14,6 +14,6 @@ interface myData {
 export class EventsService {
   constructor(private http: HttpClient) {}
   postEvent(event) {
-    return this.http.post<myData>('./api/events.php', event);
+    return this.http.post<myData>('./api/events.php', event); 
   }
 }
