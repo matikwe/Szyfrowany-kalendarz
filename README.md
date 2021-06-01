@@ -1,6 +1,8 @@
 # PkikApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.11.
+Problemy:
+https://stackoverflow.com/questions/50333003/could-not-find-module-angular-devkit-build-angular
 
 ## Development server
 
