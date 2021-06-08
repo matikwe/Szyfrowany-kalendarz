@@ -24,6 +24,7 @@ if(isset($_POST) && !empty($_POST)){
     }
     if($username == $currLogin && (password_verify($password, $currPassword)) == true){
         $_SESSION['currID'] = $currID;
+        $_SESSION['currPassword'] = $currPassword;
        
 ?>
 
