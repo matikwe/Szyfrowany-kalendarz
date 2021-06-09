@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 
 import { RecordsService } from './records.service';
 import { AuthService } from './auth.service';
+import { GetalleventsService } from './getallevents.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -81,6 +82,7 @@ FullCalendarModule.registerPlugins([
     RecordsService,
     AuthService,
     AuthGuard,
+    GetalleventsService,
     UserService,
     EventsService,
     EventsdeleteService,

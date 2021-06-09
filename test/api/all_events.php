@@ -28,7 +28,7 @@
     $i++;
  }
 //to tak samo
- $dataJSON = json_encode($allData);
+echo json_encode($allData);
 
  function encrypt_decrypt($string, $secret_key, $action)
  {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -8,24 +8,26 @@ import {
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 import { EventsService } from '../events.service';
 import { EventsdeleteService } from '../eventsdelete.service';
+import { GetalleventsService } from '../getallevents.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Identifiers } from '@angular/compiler';
+let allEvents = INITIAL_EVENTS;
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+      right: 'dayGridMonth',
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: allEvents, // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -44,6 +46,7 @@ export class CalendarComponent {
   constructor(
     private Event: EventsService,
     private deleteEvent: EventsdeleteService,
+    private getALLEvents: GetalleventsService,
     private router: Router
   ) {}
 
@@ -77,19 +80,38 @@ export class CalendarComponent {
       this.Event.postEvent(event).subscribe(
         (res) => {
           console.log(res);
-          // if (res.success) {
-          //   console.log(res);
-          // } else {
-          //   window.alert(res.message);
-          // }
         },
         (err) => {
           window.alert(err);
         }
       );
+
+      // this.getALLEvents.getALLEvents().subscribe(
+      //   (res) => {
+      //     console.log(res);
+      //   },
+      //   (err) => {
+      //     window.alert(err);
+      //   }
+      // );
     }
   }
 
+  ngOnInit() {
+    this.getALLEvents.getALLEvents().subscribe(
+      (res) => {
+        console.log(res);
+        allEvents = res;
+        allEvents.forEach((el) => {
+          Object.assign({}, el);
+        });
+        console.log(allEvents);
+      },
+      (err) => {
+        window.alert(err);
+      }
+    );
+  }
   handleEventClick(clickInfo: EventClickArg) {
     if (
       confirm(
@@ -114,10 +136,6 @@ export class CalendarComponent {
         }
       );
 
-      // console.log(clickInfo.event.title);
-      // console.log(clickInfo.event.id);
-      // console.log(clickInfo.event.start);
-      // console.log(clickInfo.event.end);
       clickInfo.event.remove();
     }
   }
