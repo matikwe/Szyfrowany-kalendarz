@@ -24,16 +24,17 @@ $end = encrypt_decrypt($_POST['end'], $currPassword, "encrypt");
 $addEvents = $data->getHandle()->query('INSERT INTO wydarzenia(title, start, end, allDay ,iduser) 
     values("'.$title.'", "'.$start.'", "'.$end.'", '.$allDay.', '.$userId.')');
 
-$lastID = $data->getHandle()->query('SELECT * FROM wydarzenia WHERE id=(SELECT max(id) FROM wydarzenia);');    
+$lastID = $data->getHandle()->query('SELECT id FROM wydarzenia WHERE id=(SELECT max(id) FROM wydarzenia);');    
 
 foreach($lastID as $item){
-    if($item['id'] <= 0){
+    if(count($item) <= 0){
         $lastIDValue = 0;
     }else{
         $lastIDValue = $item['id'];
     }
 }
 
+//lastIDValue to ostatnio dodane ID do bazy
 
 function encrypt_decrypt($string, $secret_key, $action)
 {
