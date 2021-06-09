@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
         (data) => {
           if (data.success) {
             this.router.navigate(['register']);
+            window.alert('Utworzono konto');
             this.Auth.setRegistred(true);
           } else {
             window.alert(data.message);
