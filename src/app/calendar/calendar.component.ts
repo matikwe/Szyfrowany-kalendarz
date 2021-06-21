@@ -67,6 +67,8 @@ export class CalendarComponent implements OnInit {
       const _end = selectInfo.endStr;
       const _allDay = selectInfo.allDay;
 
+
+      
       const event = {
         id: Id,
         title: title,
@@ -126,7 +128,7 @@ export class CalendarComponent implements OnInit {
         end: clickInfo.event.end,
         allDay: clickInfo.event.allDay,
       };
-
+      console.log(clickInfo.event.id);
       this.deleteEvent.deleteEvent(event).subscribe(
         (res) => {
           console.log(res);
