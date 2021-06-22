@@ -35,6 +35,12 @@ foreach($lastID as $item){
 }
 
 
+
+
+
+echo json_encode($lastIDValue);
+
+
 function encrypt_decrypt($string, $secret_key, $action)
 {
     $encrypt_method = "AES-256-CBC";
