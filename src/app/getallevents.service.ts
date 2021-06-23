@@ -5,16 +5,6 @@ interface myData {
   message: string;
 }
 
-class Event {
-  constructor(
-    id: number,
-    title: string,
-    start: Date,
-    end: Date,
-    allDay: boolean,
-    iduser: number
-  ) {}
-}
 @Injectable({
   providedIn: 'root',
 })

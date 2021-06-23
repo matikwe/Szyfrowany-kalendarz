@@ -4,6 +4,7 @@ import {
   DateSelectArg,
   EventClickArg,
   EventApi,
+  EventInput,
 } from '@fullcalendar/angular';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 import { EventsService } from '../events.service';
@@ -12,13 +13,14 @@ import { GetalleventsService } from '../getallevents.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Identifiers } from '@angular/compiler';
-let allEvents = INITIAL_EVENTS;
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
+  initialEvents = [];
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
     headerToolbar: {
@@ -27,7 +29,7 @@ export class CalendarComponent implements OnInit {
       right: 'dayGridMonth',
     },
     initialView: 'dayGridMonth',
-    initialEvents: allEvents, // alternatively, use the `events` setting to fetch from a feed
+    events: [], // alternatively, use the `events` setting to fetch from a feed
     weekends: true,
     editable: true,
     selectable: true,
@@ -59,7 +61,7 @@ export class CalendarComponent implements OnInit {
     const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
 
     if (title) {
       const Id = createEventId();
@@ -75,40 +77,47 @@ export class CalendarComponent implements OnInit {
         allDay: selectInfo.allDay,
       };
 
-      calendarApi.addEvent(event);
-
       this.Event.postEvent(event).subscribe(
         (res) => {
-          console.log(res);
+          const resId: string = res;
+          const eventApi = {
+            id: resId,
+            title: title,
+            start: _start,
+            end: _end,
+            allDay: _allDay,
+          };
+
+          calendarApi.addEvent(eventApi);
         },
         (err) => {
           window.alert(err);
         }
       );
-
-      // this.getALLEvents.getALLEvents().subscribe(
-      //   (res) => {
-      //     console.log(res);
-      //   },
-      //   (err) => {
-      //     window.alert(err);
-      //   }
-      // );
     }
   }
 
   ngOnInit() {
     this.getALLEvents.getALLEvents().subscribe(
       (res) => {
-        console.log(res);
-        allEvents = res;
-        allEvents.forEach((el) => {
-          Object.assign({}, el);
+        res.forEach((element) => {
+          const event = {
+            id: element[0],
+            title: element[1],
+            start: element[2],
+            end: element[3],
+            allDay: element[4],
+            userId: element[5],
+          };
+          this.initialEvents.push(event);
         });
-        console.log(allEvents);
+        console.log(this.initialEvents);
+
+        this.calendarOptions.events = this.initialEvents;
+        console.log(this.calendarOptions.events);
       },
       (err) => {
-        window.alert(err);
+        window.alert('Brak wydarzeń');
       }
     );
   }
@@ -141,6 +150,24 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
+    let allEvents = [];
+    this.getALLEvents.getALLEvents().subscribe(
+      (res) => {
+        res.forEach((element) => {
+          const event = {
+            id: element[0],
+            title: element[1],
+            start: element[2],
+            end: element[3],
+            allDay: element[4],
+            userId: element[5],
+          };
+          allEvents.push(event);
+        });
+      },
+      (err) => {}
+    );
+    // this.initialEvents = allEvents as EventInput[];
+    this.currentEvents = allEvents as EventApi[];
   }
 }

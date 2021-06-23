@@ -1,4 +1,8 @@
  <?php
+ 
+ header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, GET, POST");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
  include 'DB_connect.php';
 
  session_start();
@@ -13,8 +17,11 @@
 	$currPassword = $item['password'];
  }
 
- $i = 0;
 
+//  $allData = array();
+
+ $i = 0;
+// $allData = [];
  foreach($loadAllEvent as $item)
  {
 	$id[$i] = $item['id'];
@@ -23,8 +30,13 @@
 	$end[$i] = encrypt_decrypt($item['end'], $currPassword, "decrypt");
 	$allDay[$i] = $item['allDay'];
 	$userId[$i] = $item['iduser'];
+
+    // $event = new Event($id[i], $title[$i], $start[$i], $end[$i], $allDay[i], $userId[$i]);
 	//nie wiem czy dobrze
 	$allData[$i] = array($id[$i], $title[$i], $start[$i], $end[$i], $allDay[$i], $userId[$i]);
+
+    // array_push($allData, $event);
+    // array_push($allData, $event)
     $i++;
  }
 //to tak samo

@@ -36,6 +36,12 @@ foreach($lastID as $item){
 
 //lastIDValue to ostatnio dodane ID do bazy
 
+
+
+
+echo json_encode($lastIDValue);
+
+
 function encrypt_decrypt($string, $secret_key, $action)
 {
     $encrypt_method = "AES-256-CBC";
