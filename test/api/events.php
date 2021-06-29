@@ -7,7 +7,7 @@ $userId = $_SESSION['currID'];
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$allDay = $_POST['allDay'];
+$allDay = 1;
 
 $data = new DB_connect('calendar');
 
@@ -21,8 +21,8 @@ $title = encrypt_decrypt($_POST['title'], $currPassword, "encrypt");
 $start = encrypt_decrypt($_POST['start'], $currPassword, "encrypt");
 $end = encrypt_decrypt($_POST['end'], $currPassword, "encrypt");
 
-$addEvents = $data->getHandle()->query('INSERT INTO wydarzenia(title, start, end, allDay ,iduser) 
-    values("'.$title.'", "'.$start.'", "'.$end.'", '.$allDay.', '.$userId.')');
+$addEvents = $data->getHandle()->query('INSERT INTO wydarzenia(title, start, end ,iduser) 
+    values("'.$title.'", "'.$start.'", "'.$end.'", '.$userId.')');
 
 $lastID = $data->getHandle()->query('SELECT id FROM wydarzenia WHERE id=(SELECT max(id) FROM wydarzenia);');    
 

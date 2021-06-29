@@ -28,7 +28,7 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 	$title[$i] = encrypt_decrypt($item['title'], $currPassword, "decrypt");
 	$start[$i] = encrypt_decrypt($item['start'], $currPassword, "decrypt");
 	$end[$i] = encrypt_decrypt($item['end'], $currPassword, "decrypt");
-	$allDay[$i] = $item['allDay'];
+	$allDay[$i] = 1;
 	$userId[$i] = $item['iduser'];
 
     // $event = new Event($id[i], $title[$i], $start[$i], $end[$i], $allDay[i], $userId[$i]);
